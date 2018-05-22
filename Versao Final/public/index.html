@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HMI</title>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="js/moment.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	
+    <link rel="stylesheet" href="webapp/twoDView.css" type="text/css">
+    <link rel="stylesheet" href="webapp/threeDView.css" type="text/css">
+     <style>
+        .editBlock {
+            position: relative;
+            float: left;
+            width: 39%;
+            height: 400px;
+            padding: 1px;
+            margin: 0;
+        }
+
+        .editBlock pre {
+            width: 100%;
+            height: 350px;
+            margin: 0;
+        }
+
+        .viewContainer {
+            width: 100%;
+        }
+
+        #loader {
+            display: inline-block;
+            background-size: 100% 100%;
+            background-image: url(webapp/images/spinner.svg);
+            width: 20px;
+            height: 20px;
+        }
+
+        .boundsTable {
+            border-collapse: collapse;
+        }
+
+        .boundsTable td {
+            border: dashed gray 1px;
+            padding: 3px;
+        }
+
+        .ThreeDView {
+            border: solid gray 1px;
+            background: #000;
+            height: 800px;
+            position: relative;
+        }
+
+        .TwoDView {
+            border: solid gray 1px;
+            background: #000;
+            height: 300px;
+            display: none;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+	<div id="div-machine-state" class="topbar">
+		<!--<div id="div-power-button">
+	    	<a id="power-button" class="power-button"><i class="fa fa-power-off"></i></a>
+	    </div>-->
+	    <div id="div-estado-maquina">
+			<span id="machine-state-text" class="machine-state-text">ESTADO:</span>
+			<span id="machine-state" class="machine-state-text"></span>
+		</div>
+		<div>
+			<button id="btn-historico" class="btn-push2 blue">Histórico</button>
+			<button id="btn-historicodelete" class="btn-push2 red" style="font-size: 10px">Limpar</button>
+		</div>
+	</div>
+	<div id="block1">
+		<div id="div-axis">
+			<div id="div-axis-x" class="div-axis">
+				<div class="Progress">
+				    <span class="Progress-label" id="Progress-id">X: <strong id="strong-x-pos"></strong><strong id="strong-x-pos-unit"> mm</strong></span>
+				    <progress max="1000" value="0" class="Progress-main" aria-labelledby="Progress-id" id="progress-x-pos">
+				        <div class="Progress-bar" role="presentation">
+				            <span id="span-x-pos" class="Progress-value">&nbsp;</span>
+				        </div>
+				    </progress>
+				</div>
+			</div>
+			<div id="div-axis-y" class="div-axis">
+				<div class="Progress">
+				    <span class="Progress-label" id="Progress-id">Y: <strong id="strong-y-pos"></strong><strong id="strong-y-pos-unit"> mm</strong></span>
+				    <progress max="1000" value="0" class="Progress-main" aria-labelledby="Progress-id" id="progress-y-pos">
+				        <div class="Progress-bar" role="presentation">
+				            <span id="span-y-pos" class="Progress-value">&nbsp;</span>
+				        </div>
+				    </progress>
+				</div>
+			</div>
+			<div id="div-axis-z" class="div-axis">
+				<div class="Progress">
+				    <span class="Progress-label" id="Progress-id">Z: <strong id="strong-z-pos"></strong><strong id="strong-z-pos-unit"> mm</strong></span>
+				    <progress max="1000" value="0" class="Progress-main" aria-labelledby="Progress-id" id="progress-z-pos">
+				        <div class="Progress-bar" role="presentation">
+				            <span id="span-z-pos" class="Progress-value">&nbsp;</span>
+				        </div>
+				    </progress>
+				</div>
+			</div>
+			<div id="div-axis-b" style="width: 37%;float: left;">
+				<!--<div class="Progress">
+				    <span class="Progress-label" id="Progress-id">B: <strong id="strong-b-pos"></strong><strong id="strong-b-pos-unit"> ºC</strong></span>
+				    <progress max="1000" value="0" class="Progress-main" aria-labelledby="Progress-id" id="progress-b-pos">
+				        <div class="Progress-bar" role="presentation">
+				            <span id="span-b-pos" class="Progress-value">&nbsp;</span>
+				        </div>
+				    </progress>
+				</div>-->
+				<div style="width:10%;float: left;"><span>B:</span></div>
+
+				<div style="height: 0px;width: 83px;border: 1px solid grey;margin-top: 40px;position: absolute;">
+				</div>
+				<div style="width: 40px;margin-top: 33px;position: absolute;margin-left: 86px;">
+					<span id="span-b-pos"></span>
+					<span id="span-b-graus">º</span>
+				</div>
+
+				<div class="app-container" id="app-container">
+				  <div class="circle-container" id="circle-container">
+				    <div class="circle2" id="circle2"></div>
+				  </div>
+				</div>
+				<ul class="app-options" id="app-options">
+				  
+				</ul>
+				<!--<div id="progress" 
+				     data-percentage="77" 
+				     data-track-width="12" 
+				     data-track-colour="555555" 
+				     data-fill-colour="00C0FF" 
+				     data-text-colour="00C0FF" 
+				     data-stroke-colour="FFFFFF" 
+				     data-stroke-spacing="4"> 
+				</div>-->
+			</div>
+			<div id="div-axis-c" style="width: 55%;float: left;">
+				<div style="width:10%;float: left;"><span id="Progress-id">C:</span></div>
+				<!--<div>
+					<canvas id="myCanvas2" width="120" height="85" style="background:#fff; margin-left: 30px;"></canvas>
+				</div>
+				<div class="div3" id="div3"></div>-->
+				<!--<div class="Progress">
+				    <span class="Progress-label" id="Progress-id">C: <strong id="strong-c-pos"></strong><strong id="strong-c-pos-unit"> ºC</strong></span>
+				    <progress max="1000" value="0" class="Progress-main" aria-labelledby="Progress-id" id="progress-c-pos">
+				        <div class="Progress-bar" role="presentation">
+				            <span id="span-c-pos" class="Progress-value">&nbsp;</span>
+				        </div>
+				    </progress>
+				</div>-->
+				<!--<div class="main">
+				  <div class="circle" id="posicao-mesa"></div>
+				</div>-->
+				<div style="width: 40px;margin-top: 33px;position: absolute;margin-left: 152px;">
+					<span id="span-c-pos"></span>
+					<span id="span-c-graus">º</span>
+				</div>
+				<div class="app-containerC" id="app-containerC">
+				  <div class="circle-containerC" id="circle-containerC">
+				    <div class="circleC" id="circleC"></div>
+				    <div class="pointC" id="pointC"></div>
+				  </div>
+				</div>
+			</div>
+		</div>
+		<div id="div-info-velocidade">
+			<div id="div-info-velocidade-caption">
+				<span id="span-info-velocidade-caption">Velocidades - mm/s</span>
+			</div>
+			<div id="div-info-velocidade-conteudo">
+				<div id="div-velocidade-avanco">
+					<div class="div-span-velocidade">
+						<span id="span-velocidade-avanco">Avanço:</span>
+						<span id="span-velocidade-avanco-valor"></span>
+					</div>
+				</div>
+				<hr class="hr1"/>
+				<div id="div-velocidade-extrusao-polimero">
+					<div class="div-span-velocidade">
+						<span id="span-velocidade-extrusao-polimero">Extrusão de Polímero:</span>
+						<span id="span-velocidade-extrusao-polimero-valor"></span>
+					</div>
+				</div>
+				<hr class="hr1"/>
+				<div id="div-velocidade-extrusao-fibra">
+					<div class="div-span-velocidade">
+						<span id="span-velocidade-extrusao-fibra">Extrusão de Fibra:</span>
+						<span id="span-velocidade-extrusao-fibra-valor"></span>
+					</div>
+				</div>
+				<hr class="hr1"/>
+				<div id="div-velocidade-polimero-trabalho">
+					<div class="div-span-velocidade">
+						<span id="span-velocidade-polimero-trabalho">Polímero por Trabalho:</span>
+						<span id="span-velocidade-polimero-trabalho-valor"></span>
+					</div>
+				</div>
+				<hr class="hr1"/>
+				<div id="div-velocidade-fibra-trabalho">
+					<div class="div-span-velocidade">
+						<span id="span-velocidade-fibra-trabalho">Fibra por Trabalho:</span>
+						<span id="span-velocidade-fibra-trabalho-valor"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="div-info-temperatura">
+			<div id="div-info-temperatura-caption">
+				<span id="span-info-temperatura-caption">Temperaturas - ºC</span>
+			</div>
+			<div id="div-info-temperatura-conteudo">
+				<div id="div-temperatura-camara">
+					<div id="div-span-temperatura-camara">
+						<div class="div-span-temps-valor">
+							<span id="span-temperatura-camara">Câmara:</span>
+							<span id="span-temperatura-camara-valor"></span>
+						</div>
+						<div class="d3-barra" id='dashboard'>
+						</div>
+						<div class="div-span-temps-desejada">
+							<span class="span-temperatura-desejada" id="span-temperatura-camara-desejada">80.0</span>
+						</div>
+					</div>
+					<div id="div-span-temperatura-tabuleiro-valor">
+						<div class="div-span-temps-valor">
+							<span id="span-temperatura-tabuleiro">Tabuleiro:</span>
+							<span id="span-temperatura-tabuleiro-valor"></span>
+						</div>
+						<div class="d3-barra" id='dashboard-temperatura-tabuleiro'>
+						</div>
+						<div class="div-span-temps-desejada">
+							<span class="span-temperatura-desejada" id="span-temperatura-tabuleiro-desejada">80.0</span>
+						</div>
+					</div>
+				</div>
+				<hr class="hr1"/>
+				<div id="div-temperatura-extrusor">
+					<div id="div-span-temperatura-extrusor">
+						<div class="div-span-temps-valor">
+							<span id="span-temperatura-extrusor">Extrusor:</span>
+							<span id="span-temperatura-extrusor-valor"></span>
+						</div>
+						<div class="d3-barra" id='dashboard-temperatura-extrusor'>
+						</div>
+						<div class="div-span-temps-desejada">
+							<span class="span-temperatura-desejada" id="span-temperatura-extrusor-desejada">80.0</span>
+						</div>
+					</div>
+					<div id="div-span-temperatura-extrusor2"></div>
+				</div>
+				<hr class="hr1"/>
+				<div id="div-temperatura-agua-chiller">
+					<div id="div-span-temperatura-agua-chiller">
+						<div class="div-span-temps-valor" id="div-span-temps-valor-agua-chiller">
+							<span id="span-temperatura-agua-chiller">Água à entrada do Chiller:</span>
+							<span id="span-temperatura-agua-chiller-valor"></span>
+						</div>
+						<div class="d3-barra" id='dashboard-temperatura-agua-chiller'>
+						</div>
+					</div>
+					<div id="div-span-temperatura-agua-chiller2"></div>
+				</div>
+				<hr class="hr1"/>
+				<div id="div-temperatura-motor-b">
+					<div id="div-span-temperatura-motor-b">
+						<div class="div-span-temps-valor">
+							<span id="span-temperatura-motor-b">Motor B:</span>
+							<span id="span-temperatura-motor-b-valor"></span>
+						</div>
+						<div class="d3-barra" id='dashboard-temperatura-motor-b'>
+						</div>
+					</div>
+					<div id="div-span-temperatura-quadro">
+						<div class="div-span-temps-valor">
+							<span id="span-temperatura-quadro">Quadro:</span>
+							<span id="span-temperatura-quadro-valor"></span>
+						</div>
+						<div class="d3-barra" id='dashboard-temperatura-quadro'>
+						</div>
+					</div>
+				</div>
+				<hr class="hr1"/>
+				<div id="div-temperatura-saida-cablagem">
+					<div id="div-span-temperatura-saida-cablagem">
+						<div class="div-span-temps-valor">
+							<span id="span-temperatura-saida-cablagem">Saída Cablagem:</span>
+							<span id="span-temperatura-saida-cablagem-valor"></span>
+						</div>
+						<div class="d3-barra" id='dashboard-temperatura-saida-cablagem'>
+						</div>
+					</div>
+					<div id="div-span-temperatura-ponto-movel">
+						<div class="div-span-temps-valor">
+							<span id="span-temperatura-ponto-movel">Ponto Móvel:</span>
+							<span id="span-temperatura-ponto-movel-valor"></span>
+						</div>
+						<div class="d3-barra" id='dashboard-temperatura-ponto-movel'>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="block2">
+		<div class="tab">
+		  <button id="btn-tab-automatic" class="tablinks" onclick="abreModoOperacao(event, 'Automatic')">Automatico</button>
+		  <button id="btn-tab-manual" class="tablinks" onclick="abreModoOperacao(event, 'Manual')">Manual</button>
+		  <button id="btn-tab-mdi" class="tablinks" onclick="abreModoOperacao(event, 'MDI')">MDI</button>
+		</div>
+		<div id="Automatic" class="tabcontent">
+			<div id="tab-automatic-1">
+		  	<div id="div-escolher-ficheiro">
+		  		<div class="custom-file-input">
+				  <span id="nome-ficheiro"></span>
+				  <span>Escolher Ficheiro<input type="file" id="ficheiro-gcode"/></span>
+				</div>
+		  	</div>
+		  	<div id="btn-automatic">
+		  		<button id="btn-iniciar" class="btn-push2 green">Iniciar</button>
+		  		<button id="btn-pausar" class="btn-push2 yellow">Pausar</button>
+		  		<button id="btn-parar" class="btn-push2 red">Parar</button>
+		  	</div>
+		  </div>
+		  <div id="tab-automatic-2">
+		  	<div id="div-linhas-gcode">
+		  		<div class="div-linha-gcode"><input class="input-linha-gcode" type="text" name="linha-gcode-1" id="linha-gcode-1" readonly></div>
+		  		<div class="div-linha-gcode"><input class="input-linha-gcode" type="text" name="linha-gcode-2" id="linha-gcode-2" readonly></div>
+		  		<div class="div-linha-gcode"><input class="input-linha-gcode" type="text" name="linha-gcode-3" id="linha-gcode-3" readonly></div>
+		  		<div class="div-linha-gcode"><input class="input-linha-gcode" type="text" name="linha-gcode-4" id="linha-gcode-4" readonly></div>
+		  		<div class="div-linha-gcode"><input class="input-linha-gcode" type="text" name="linha-gcode-5" id="linha-gcode-5" readonly></div>
+		  	</div>
+		  	<div>
+		  		<button id="btn-ver3d" class="btn-push2">Ver 3D</button>
+		  	</div>
+		  </div>
+		</div>
+
+		<div id="Manual" class="tabcontent">
+		  	<div id="div-botoes-eixos">
+			  	<div class="div-botoes-eixos-bloco">
+				  	<button class="btn-push btn-eixos" id="btn-x-manual">X</button>
+				  	<button class="btn-push btn-eixos" id="btn-y-manual">Y</button>
+				  	<button class="btn-push btn-eixos" id="btn-z-manual">Z</button>
+			  	</div>
+			  	<div class="div-botoes-eixos-bloco">
+				  	<button class="btn-push btn-eixos" id="btn-b-manual">B</button>
+				  	<button class="btn-push btn-eixos" id="btn-c-manual">C</button>
+				  	<button class="btn-push btn-eixos" id="btn-ext-manual">E</button>
+			  	</div>
+		  	</div>
+		  	<div id="div-botoes-avanco">
+			  	<div class="div-botoes-eixos-bloco">
+			  		<span>Recuo</span>
+				  	<button class="btn-push btn-vel" id="btn-menoszeroum-manual">-0.1</button>
+				  	<button class="btn-push btn-vel" id="btn-menosum-manual">-1</button>
+				  	<button class="btn-push btn-vel" id="btn-menosdez-manual">-10</button>
+			  	</div>
+			  	<div class="div-botoes-eixos-bloco">
+			  		<span>Avanço</span>
+				  	<button class="btn-push btn-vel" id="btn-maiszeroum-manual">+0.1</button>
+				  	<button class="btn-push btn-vel" id="btn-maisum-manual">+1</button>
+				  	<button class="btn-push btn-vel" id="btn-maisdez-manual">+10</button>
+			  	</div>
+		  	</div>
+		  	<div id="div-botoes-mover-eixos" class="div-botoes-eixos-bloco">
+		  		<button class="btn-push2" id="btn-mover-eixo-manual">Mover Eixo</button>
+		  	</div>
+		  	<div id="div-botoes-homing">
+		  		<div class="div-botoes-eixos-bloco">
+		  			<button class="btn-push2" id="btn-homing-manual">Homing</button>
+		  		</div>
+			  	<div class="div-botoes-eixos-bloco">
+			  		<button class="btn-push2" id="btn-homing-geral-manual">Homing Geral</button>
+			  	</div>
+			</div>
+		</div>
+		<div id="MDI" class="tabcontent">
+			<div id="div-mdi-bloco1">
+				<div id="div-input-mdi-gcode">
+					<input id="mdi-linha-gcode" type="text" name="mdi-linha-gcode" class="input-linha-gcode2"/>
+					<img id="img-teclado" src="img/keyboard.PNG" width="36" height="36""/>
+				</div>
+				<div class="div-mdi-botoes-eixos-bloco">
+					<button id="btn-mdi-iniciar" class="btn-push2 green">Iniciar</button>
+					<button id="btn-mdi-pausar" class="btn-push2 yellow">Pausar</button>
+					<button id="btn-mdi-parar" class="btn-push2 red">Parar</button>
+				</div>
+			</div>
+			<div id="div-mdi-bloco2">
+				<input id="mdi-linha-gcode1" type="text" class="input-linha-gcode2"/>
+				<input id="mdi-linha-gcode2" type="text" class="input-linha-gcode2"/>
+				<input id="mdi-linha-gcode3" type="text" class="input-linha-gcode2"/>
+				<input id="mdi-linha-gcode4" type="text" class="input-linha-gcode2"/>
+				<input id="mdi-linha-gcode5" type="text" class="input-linha-gcode2"/>
+			</div>
+		</div>
+	</div>
+	<div id="block3">
+		<div class="tab">
+		  <button id="btn-tab-aquecimento" class="tablinks2" onclick="abreParametros(event, 'Aquecimento')">Aquecimento</button>
+		  <button id="btn-tab-insuflacao" class="tablinks2" onclick="abreParametros(event, 'Insuflação')">Insuflação de Ar</button>
+		  <button id="btn-tab-parametros" class="tablinks2" onclick="abreParametros(event, 'Parâmetros')">Parâmetros</button>
+		  <button id="btn-tab-outros" class="tablinks2" onclick="abreParametros(event, 'Outros')">Outros</button>
+		  <button id="btn-tab-desligar" class="tablinks2" onclick="abreParametros(event, 'Desligar')">Desligar</button>
+		</div>
+		<div id="Aquecimento" class="tabcontent2">
+			<div class="div-aquecimento-parametros">
+				<div id="div-aquecimento-camara" class="div-aquecimento">
+					<div class="div-span-aquecimento">
+						<span id="span-aquecimento-camara">Câmara:</span>
+					</div>
+					<div class="switch-box">
+					  <input id="input-aquecimento-camara" type="checkbox">
+					  <label for="input-aquecimento-camara" class="option">
+					    <span class="active-state">ON</span>
+					    <i class="icon"></i>
+					    <span class="inactive-state">OFF</span>
+					  </label>
+					</div>
+				</div>
+				<div id="div-aquecimento-tabuleiro" class="div-aquecimento">
+					<div class="div-span-aquecimento">
+						<span id="span-aquecimento-tabuleiro">Tabuleiro:</span>
+					</div>
+					<div class="switch-box">
+					  <input id="input-aquecimento-tabuleiro" type="checkbox">
+					  <label for="input-aquecimento-tabuleiro" class="option">
+					    <span class="active-state">ON</span>
+					    <i class="icon"></i>
+					    <span class="inactive-state">OFF</span>
+					  </label>
+					</div>
+				</div>
+				<div id="div-aquecimento-extrusor" class="div-aquecimento">
+					<div class="div-span-aquecimento">
+						<span id="span-aquecimento-extrusor">Extrusor:</span>
+					</div>
+					<div class="switch-box">
+					  <input id="input-aquecimento-extrusor" type="checkbox">
+					  <label for="input-aquecimento-extrusor" class="option">
+					    <span class="active-state">ON</span>
+					    <i class="icon"></i>
+					    <span class="inactive-state">OFF</span>
+					  </label>
+					</div>
+				</div>
+			</div>
+			<div class="div-aquecimento-parametros2">
+				<div id="div-aquecimento-temperatura-camara" class="div-aquecimento-parametro">
+					<span id="span-aquecimento-temperatura-camara">Temperatura da Câmara:</span>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-camara--10">-10</button>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-camara--1">-1</button>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-camara-1">+1</button>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-camara-10">+10</button>
+				</div>
+				<div id="div-aquecimento-temperatura-tabuleiro" class="div-aquecimento-parametro">
+					<span id="span-aquecimento-temperatura-tabuleiro">Temperatura do Tabuleiro:</span>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-tabuleiro--10">-10</button>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-tabuleiro--1">-1</button>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-tabuleiro-1">+1</button>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-tabuleiro-10">+10</button>
+				</div>
+				<div id="div-aquecimento-temperatura-extrusor" class="div-aquecimento-parametro">
+					<span id="span-aquecimento-temperatura-extrusor">Temperatura do Extrusor:</span>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-extrusor--10">-10</button>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-extrusor--1">-1</button>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-extrusor-1">+1</button>
+					<button class="btn-push2 btn-vel" id="aquecimento-temperatura-extrusor-10">+10</button>
+				</div>
+			</div>
+		</div>
+		<div id="Insuflação" class="tabcontent2">
+			<div id="div-insuflacao-camara">
+				<div class="div-span-insuflacaoar" id="div-insuflacao-camara2">
+					<span id="span-insuflacao-camara">Câmara:</span>
+				</div>
+				<div class="switch-box">
+					  <input id="input-insuflacao-camara" type="checkbox">
+					  <label for="input-insuflacao-camara" class="option">
+					    <span class="active-state">ON</span>
+					    <i class="icon"></i>
+					    <span class="inactive-state">OFF</span>
+					  </label>
+				</div>
+			</div>
+			<div id="div-insuflacao-eixox">
+				<div class="div-span-insuflacaoar">
+					<span id="span-insuflacao-eixox">Eixo X e Cablagem:</span>
+				</div>
+				<div class="switch-box">
+					  <input id="input-insuflacao-eixox" type="checkbox">
+					  <label for="input-insuflacao-eixox" class="option">
+					    <span class="active-state">ON</span>
+					    <i class="icon"></i>
+					    <span class="inactive-state">OFF</span>
+					  </label>
+				</div>
+			</div>
+			<div id="div-insuflacao-quadro">
+				<div class="div-span-insuflacao-quadro">
+					<span id="span-insuflacao-quadro">Quadro:</span>
+					<select id="select-insuflacao-quadro">
+						<option value="0">0%</option>
+						<option value="50">50%</option>
+						<option value="100">100%</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div id="Parâmetros" class="tabcontent2">
+			<div id="div-parametros-velocidade-avanco" class="div-parametros-velocidades">
+				<div class="div-parametros-velocidades-bloco1">
+					<span id="span-parametros-velocidade-avanco">Velocidade de Avanço:</span>
+					<button class="btn-push2" id="parametros-velocidade-avanco--10">-10</button>
+					<button class="btn-push2" id="parametros-velocidade-avanco--1">-1</button>
+					<button class="btn-push2" id="parametros-velocidade-avanco-1">+1</button>
+					<button class="btn-push2" id="parametros-velocidade-avanco-10">+10</button>
+				</div>
+				<div class="div-parametros-velocidades-bloco2">
+					<button class="btn-push2" id="parametros-velocidade-avanco-100">100%</button>
+				</div>
+			</div>
+			<div id="div-parametros-velocidade-extrusao-polimero" class="div-parametros-velocidades">
+				<div class="div-parametros-velocidades-bloco1">
+					<span id="span-parametros-velocidade-extrusao-polimero">Velocidade de Extrusão do Polímero:</span>
+					<button class="btn-push2" id="parametros-velocidade-extrusao-polimero--10">-10</button>
+					<button class="btn-push2" id="parametros-velocidade-extrusao-polimero--1">-1</button>
+					<button class="btn-push2" id="parametros-velocidade-extrusao-polimero-1">+1</button>
+					<button class="btn-push2" id="parametros-velocidade-extrusao-polimero-10">+10</button>
+				</div>
+				<div class="div-parametros-velocidades-bloco2">
+					<button class="btn-push2" id="parametros-velocidade-extrusao-polimero-100">100%</button>
+				</div>
+			</div>
+			<div id="div-parametros-velocidade-extrusao-fibra" class="div-parametros-velocidades">
+				<div class="div-parametros-velocidades-bloco1">
+					<span id="span-parametros-velocidade-extrusao-fibra">Velocidade de Extrusão de Fibra:</span>
+					<button class="btn-push2" id="parametros-velocidade-extrusao-fibra--10">-10</button>
+					<button class="btn-push2" id="parametros-velocidade-extrusao-fibra--1">-1</button>
+					<button class="btn-push2" id="parametros-velocidade-extrusao-fibra-1">+1</button>
+					<button class="btn-push2" id="parametros-velocidade-extrusao-fibra-10">+10</button>
+				</div>
+				<div class="div-parametros-velocidades-bloco2">
+					<button class="btn-push2" id="parametros-velocidade-extrusao-fibra-100">100%</button>
+				</div>
+			</div>
+		</div>
+		<div id="Outros" class="tabcontent2">
+			<div id="div-outros-ajuste-mesa">
+				<button id="outros-ajuste-mesa" class="btn-push2">Ajuste de Mesa</button>
+			</div>
+			<div id="div-outros-iluminacao-camara">
+				<div class="div-span-insuflacaoar" id="div-span-outros-iluminacao-camara">
+					<span id="span-outros-iluminacao-camara">Iluminação da Câmara:</span>
+				</div>
+				<div class="switch-box">
+					  <input id="input-outros-iluminacao-camara" type="checkbox">
+					  <label for="input-outros-iluminacao-camara" class="option">
+					    <span class="active-state">ON</span>
+					    <i class="icon"></i>
+					    <span class="inactive-state">OFF</span>
+					  </label>
+				</div>
+			</div>
+		</div>
+		<div id="Desligar" class="tabcontent2">
+			<div id="div-desligar-motores">
+				<button id="desligar-motores" class="btn-push2 red">Desligar Motores</button>
+			</div>
+			<div id="div-desligar-sistema-aquecimento">
+				<button id="desligar-sistema-aquecimento" class="btn-push2 red">Desligar Sistema de Aquecimento</button>
+			</div>
+			<div id="div-desligar-tudo">
+				<button id="desligar-tudo" class="btn-push2 red">Desligar Tudo</button>
+			</div>
+		</div>
+	</div>
+	<div id="modal-teclado" class="modal">
+	  <div class="modal-content">
+	    <span id="modal-teclado-close" class="close">&times;</span>
+	    <div id="div-span-mdi-gcode">
+	    	<button class="btn-push3 red" id="btn-teclado-apaga">Apagar</button>
+	    	<input type="text" id="input-mdi-gcode" name="input-mdi-gcode" placeholder="Inserir comando Gcode">
+	    	<button class="btn-push3 green" id="btn-teclado-executa">OK</button>
+	    </div>
+	    <div id="div-botoes-teclado">
+	    	<div class="div-botoes-teclado-linha">
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-x">X</button>
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-y">Y</button>
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-z">Z</button>
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-b">B</button>
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-c">C</button>
+		    		
+			    		
+	    	</div>
+			<div class="div-botoes-teclado-linha">
+				<button class="btn-push3 blue teclado-btns" id="btn-teclado-g">G</button>
+			    	<button class="btn-push3 blue teclado-btns" id="btn-teclado-m">M</button>
+			    	<button class="btn-push3 white teclado-btns" id="btn-teclado-empty"></button>
+			    	<button class="btn-push3 teclado-btns" id="btn-teclado-f">F</button>
+				<button class="btn-push3 teclado-btns" id="btn-teclado-1">1</button>
+		    	<button class="btn-push3 teclado-btns" id="btn-teclado-2">2</button>
+		    	<button class="btn-push3 teclado-btns" id="btn-teclado-3">3</button>	
+		    	<button class="btn-push3 teclado-btns" id="btn-teclado-p">P</button>
+		    	
+			</div>	    	
+	    	<div class="div-botoes-teclado-linha">
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-4">4</button>
+		    	<button class="btn-push3 teclado-btns" id="btn-teclado-5">5</button>
+		    	<button class="btn-push3 teclado-btns" id="btn-teclado-6">6</button>	
+		    	
+	    	</div>
+	    	<div class="div-botoes-teclado-linha">
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-7">7</button>
+		    	<button class="btn-push3 teclado-btns" id="btn-teclado-8">8</button>
+		    	<button class="btn-push3 teclado-btns" id="btn-teclado-9">9</button>	
+		    	<button class="btn-push3 teclado-btns" id="btn-teclado-igual">=</button>
+		    	<button class="btn-push3 teclado-btns" id="btn-teclado-a">A</button>
+	    	</div>
+	    	<div class="div-botoes-teclado-linha">
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-menos">-</button>	
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-0">0</button>
+	    		<button class="btn-push3 teclado-btns" id="btn-teclado-point">.</button>
+
+	    	</div>
+	    	<div class="div-botoes-teclado-linha">
+	    		<button class="btn-push3" id="btn-teclado-espaco" style="padding: 10px 20px">									<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"><path d="M18 9v4H6V9H4v6h16V9z"/></svg></button>
+	    		<button style="padding: 10px 20px" class="btn-push3" id="btn-teclado-apaga-ultimo"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"><path d="M21 11H6.83l3.58-3.59L9 6l-6 6 6 6 1.41-1.41L6.83 13H21z"/></svg></button>
+	    	</div>
+	    </div>
+	    <div><table id="table-mdi-gcode"><tbody></tbody></table></div>
+	  </div>
+	</div>
+
+	<div id="modal-historico" class="modal">
+	  <div class="modal-content">
+	    <span id="modal-historico-close" class="close">&times;</span>
+	    <div id="div-historico">
+	    	<div class="div-linha">
+		    	<div class="div-celula-caption"><span>Ficheiro</span></div>
+		    	<div class="div-celula-caption"><span>Início</span></div>
+		    	<div class="div-celula-caption"><span>Fim</span></div>
+		    	<div class="div-celula-caption"><span>Duração(mins)</span></div>
+		    	<div class="div-celula-caption"><span>Detalhes</span></div>
+	    	</div>
+	    </div>
+	  </div>
+	</div>
+
+	<div id="modal-historico-detalhes" class="modal">
+	  <div class="modal-content">
+	    <span id="modal-historico-detalhes-close" class="close">&times;</span>
+	    <div id="div-historico-detalhes">
+	    </div>
+	    <div id="question2" class="multiChoice">
+			<span class="custom-checkbox" id="q2Blue">
+				<input id="checkbox-camara" type="checkbox" value="0"/>
+				<span class="box">Câmara</span>
+			</span>
+			<span class="custom-checkbox" id="q2Red">
+				<input id="checkbox-tabuleiro" type="checkbox" value="1"/>
+				<span class="box">Tabuleiro</span>
+			</span>
+			<span class="custom-checkbox" id="q2Green">
+				<input id="checkbox-extrusor" type="checkbox" value="2"/>
+				<span class="box">Extrusor</span>
+			</span>
+			<span class="custom-checkbox" id="q2Brown">
+				<input id="checkbox-agua-chiller" type="checkbox" value="3"/>
+				<span class="box">Água Chiller</span>
+			</span>
+			<span class="custom-checkbox" id="q2Pink">
+				<input id="checkbox-motor-b" type="checkbox" value="4"/>
+				<span class="box">Motor B</span>
+			</span>
+			<span class="custom-checkbox" id="q2Violet">
+				<input id="checkbox-quadro" type="checkbox" value="5"/>
+				<span class="box">Quadro</span>
+			</span>
+			<span class="custom-checkbox" id="q2Black">
+				<input id="checkbox-saida-cablagem" type="checkbox" value="6"/>
+				<span class="box">Saída Cablagem</span>
+			</span>
+			<span class="custom-checkbox" id="q2Orange">
+				<input id="checkbox-ponto-movel" type="checkbox" value="7"/>
+				<span class="box">Ponto Móvel</span>
+			</span>
+		</div>
+	    <div id="div-historico-detalhes-grafico">
+	    </div>
+	  </div>
+	</div>
+
+	<div id="modal-3d" class="modal">
+		<div id="app">
+			<span id="modal-3d-close" class="close3D">&times;</span>
+    	</div>	
+	</div>
+
+    
+    <script id="demoCode" type="application/gcode">
+
+</script>
+<script type="text/javascript" src="js/main.js"></script>
+	<script src="webapp/libs/require.js"></script>
+    <script src="webapp/config.js"></script>
+    <script>
+        requirejs.config({
+            baseUrl: 'webapp'
+        });
+    </script>
+<script>
+    require(['Ember', 'cnc/ui/graphicView', 'cnc/cam/cam', 'cnc/util', 'cnc/ui/gcodeEditor', 'cnc/gcode/gcodeSimulation', 'templates'],
+            function (Ember, GraphicView, cam, util, gcodeEditor, gcodeSimulation) {
+                var demoCode = $('#demoCode').text();
+
+                Ember.Handlebars.helper('num', function (value) {
+                    return new Handlebars.SafeString(Handlebars.Utils.escapeExpression(util.formatCoord(value)));
+                });
+                Ember.TEMPLATES['application'] = Ember.TEMPLATES['camApp'];
+
+                window.Simulator = Ember.Application.create({
+                    rootElement: '#app'
+                });
+
+                Simulator.GcodeEditorComponent = gcodeEditor.GcodeEditorComponent;
+                Simulator.GraphicView = GraphicView;
+
+                Simulator.ApplicationController = Ember.ObjectController.extend({
+                    init: function () {
+                        this._super();
+                        var _this = this;
+                        $(window).on('dragover', function (event) {
+                            event.preventDefault();
+                            event.dataTransfer.dropEffect = 'move';
+                        });
+
+                        $(window).on('drop', function (evt) {
+                            evt.preventDefault();
+                            evt.stopPropagation();
+                            var files = evt.dataTransfer.files;
+                            var file = files[0];
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                _this.set('code', e.target.result);
+                                _this.launchSimulation();
+
+                              $('.image-upload-wrap').hide();
+                              $('.file-upload-image').attr('src', e.target.result);
+                              $('.file-upload-content').show();
+                              $('.image-title').html(file.name);
+                            };
+                            reader.readAsText(file);
+                        });
+
+                        $('#ficheiro-gcode').on('change',function(event){
+                            var file = this.files[0];
+                            
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                _this.set('code', e.target.result);
+                                _this.launchSimulation();
+                            };
+                            reader.readAsText(file);
+                        });
+                        this.launchSimulation();
+                    },
+                    actions: {
+                        simulate: function () {
+                            this.launchSimulation();
+                        },
+                        loadBigSample: function () {
+                            this.set('computing', true);
+                            var _this = this;
+                            require(['text!samples/aztec_calendar.ngc'], function (text) {
+                                _this.set('code', text);
+                                _this.launchSimulation();
+                            });
+                        }
+                    },
+                    launchSimulation: function () {
+                        var _this = this;
+
+                        function handleResult(result) {
+                            _this.flushFragmentFile();
+                            var errors = [];
+                            for (var i = 0; i < result.errors.length; i++) {
+                                var error = result.errors[i];
+                                errors.push({row: error.lineNo, text: error.message, type: "error"});
+                            }
+                            _this.set('errors', errors);
+                            _this.set('bbox', {min: result.min, max: result.max});
+                            _this.set('totalTime', result.totalTime);
+                            _this.set('lineSegmentMap', result.lineSegmentMap);
+                            _this.set('computing', false);
+                            console.timeEnd('simulation');
+                        }
+
+                        console.time('simulation');
+                        this.set('computing', true);
+                        _this.set('lineSegmentMap', []);
+                        this.get('simulatedPath').clear();
+                        gcodeSimulation.parseInWorker(this.get('code'), new util.Point(0, 0, 0),
+                                Ember.run.bind(_this, handleResult),
+                                Ember.run.bind(_this, function (fragment) {
+                                    _this.get('fragmentFile').pushObject(fragment);
+                                    Ember.run.throttle(_this, _this.flushFragmentFile, 2500);
+                                }));
+                    },
+                    flushFragmentFile: function () {
+                        this.get('simulatedPath').pushObjects(this.get('fragmentFile'));
+                        this.get('fragmentFile').clear();
+                    },
+                    formattedTotalTime: function () {
+                        var totalTime = this.get('totalTime');
+                        var humanized = util.humanizeDuration(totalTime);
+                        return {humanized: humanized, detailed: Math.round(totalTime) + 's'};
+                    }.property('totalTime'),
+                    currentHighLight: function () {
+                        return this.get('lineSegmentMap')[this.get('currentRow')];
+                    }.property('currentRow', 'lineSegmentMap').readOnly(),
+                    code: demoCode,
+                    errors: [],
+                    bbox: {},
+                    totalTime: 0,
+                    lineSegmentMap: [],
+                    currentRow: null,
+                    simulatedPath: [],
+                    computing: false,
+                    fragmentFile: [],
+                    canSelectLanguage: false,
+                    usingGcode: true,
+                    decorations: []
+                });
+            });
+</script>
+</body>
+</html>

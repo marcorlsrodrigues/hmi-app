@@ -1,0 +1,2093 @@
+html{
+	height:100%;
+  font-family: sans-serif;
+}
+
+html {
+      -webkit-touch-callout: none; /* Disables long-touch menu */
+      -webkit-user-select: none; /* Disable text selection (for Webkit) */
+      user-select: none; /* Disable text selection (standard syntax) */
+}
+
+body{
+  margin-top:0;
+  margin-right: 0;
+  margin-left: 0;
+  height:100%;
+}
+
+#div-machine-state{
+  height: 55px;
+  padding-top: 3px;
+}
+
+.machine-state-text{
+  font-family: 'Arimo', Quicksand_Book, Arial;
+  font-size:30px;
+  font-weight: bold;
+}
+
+.topbar{
+  width: 100%;
+  top: 0;
+  background-color:#cccccc;
+  text-align: center;
+}
+
+#div-axis{
+	width:27%;
+	height:100%;
+	border: 1px solid rgba(99, 99, 99, 0.54);
+	float: left;
+}
+
+#div-info-velocidade{
+	width:30%;
+	height:100%;
+	border: 1px solid rgba(99, 99, 99, 0.54);	
+	float: left;
+}
+
+#div-info-temperatura{
+	width:42.5%;
+	height:100%;
+	border: 1px solid rgba(99, 99, 99, 0.54);	
+	float: left;
+}
+
+.div-axis{
+	width:100%;
+	height:20%;
+}
+
+#block1{
+	width:99.7%;
+	height:30%;
+	padding-left: 2px;
+}
+
+#block2{
+	width:99.7%;
+	height:30%;
+	padding-left: 1px;
+}
+
+#block3{
+  width:99.7%;
+  height:30%;
+  padding-left: 1px;
+}
+
+.hr1{
+	width:80%;
+}
+
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+    width:100%;
+    height:85%;
+}
+
+.tabcontent2 {
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+    width:100%;
+    height:85%;
+}
+
+#tab-automatic-1{
+	float: left;
+	width:30%;
+  height: 85%;
+}
+
+#tab-automatic-2{
+	float: left;
+	width:70%;
+}
+
+#div-botoes-eixos{
+	width:20%;
+	float: left;
+  text-align: right;
+}
+
+#div-botoes-avanco{
+	width:25%;
+	float: left;
+  text-align: right;
+}
+
+#div-botoes-homing{
+	width:25%;
+	float: left;
+}
+
+#div-botoes-mover-eixos{
+  width:20%;
+  float: left;
+  padding-left: 50px;
+}
+
+
+/* Virtual Keyboard */
+
+.kb-container {
+    max-width: 800px; }
+
+.header {
+    margin-top: 6rem;
+    text-align: center; }
+
+.keyboard {
+    text-align: center;
+}
+
+button.keyboard-key {
+    font-family: "Courier New", Courier, monospace;
+}
+
+button.keyboard-key:active {
+    color: #FFF;
+    background-color: #33C3F0;
+    border-color: #33C3F0;
+}
+
+/* The active-style class is used by jQuery
+   to simulate CSS's ":active" pseudo-class.
+*/
+button.active-style {
+    color: #FFF;
+    background-color: #33C3F0;
+    border-color: #33C3F0;
+}
+
+/* Dynamically adjusts the size of the keyboard's buttons. */
+@media (min-width: 320px) {
+    button.keyboard-key {
+        padding: 0px 5px;
+    }
+}
+
+@media (min-width: 335px) {
+    button.keyboard-key {
+        padding: 0px 8px;
+    }
+}
+
+@media (min-width: 375px) {
+    button.keyboard-key {
+        padding: 0px 10px;
+    }
+}
+
+@media (min-width: 520px) {
+    button.keyboard-key {
+        padding: 0px 15px;
+    }
+}
+
+@media (min-width: 700px) {
+    button.keyboard-key {
+        padding: 0px 20px;
+    }
+}
+
+@media (min-width: 800px) {
+    button.keyboard-key {
+        padding: 0px 25px;
+    }
+}
+
+@media (min-width: 930px) {
+    button.keyboard-key {
+        padding: 0px 30px;
+    }
+}
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 3% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    min-height:80%;
+}
+
+/* The Close Button */
+.close {
+    color:red;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    z-index: 10;
+    top: 2%;
+    right: 2%;
+    position: absolute;
+}
+
+.close:hover,
+.close:focus {
+    color:red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.close3D {
+    color:red;
+    font-size: 28px;
+    font-weight: bold;
+    z-index: 11500;
+    right: 2%;
+    top: 1%;
+    position: absolute;
+}
+
+.close3D:hover,
+.close3D:focus {
+    color:red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a.power-button{
+  cursor: pointer;
+  display: block;
+  width: 45px;
+  height: 45px;
+  font-size: 40px;
+  border: 2px solid #dedede;
+  background-color: #efefef;
+  box-shadow: 0px 0px 40px 1px #ddd inset,
+    0px 2px 4px rgba(0,0,0,0.4),
+    1px 1px 4px rgba(0,0,0,0.3),
+    -1px -1px 2px rgba(0,0,0,0.1),
+    -1px 1px 2px rgba(0,0,0,0.1);
+  text-align: center;
+  left: 0;
+  right: 0;
+  
+  margin-left: 10px;
+  
+  border-radius: 50%;
+   transition: color 0.8s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+.power-button:hover{
+  box-shadow:  0px 2px 6px rgba(0,0,0,0.4),
+    1px 1px 6px rgba(0,0,0,0.3),
+    -1px -1px 4px rgba(0,0,0,0.1),
+    -1px 1px 4px rgba(0,0,0,0.1);
+}
+
+.power-button.on {
+    color: #2ECC6F;
+}
+
+#div-power-button{
+    width: 5%;
+    height: 99%;
+    float: left;
+}
+
+#div-estado-maquina{
+    width: 57%;
+    float: left;
+    padding-top: 10px;
+    text-align: right;
+}
+
+/* BUTTONS START*/
+.btn-push {
+  font-size: 18px;
+  text-decoration: none;
+  background: #f7f7f7;
+  padding: 10px 20px;
+  border: 1px solid #c4c4c4;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #c4c4c4;
+  -moz-box-shadow: 0px 5px 0px #c4c4c4;
+  -ms-box-shadow: 0px 5px 0px #c4c4c4;
+  -o-box-shadow: 0px 5px 0px #c4c4c4;
+  box-shadow: 0px 5px 0px #c4c4c4;
+  color: #222;
+  text-shadow: 1px 1px 1px #fff;
+  -webkit-transition: All 250ms ease;
+  -moz-transition: All 250ms ease;
+  -o-transition: All 250ms ease;
+  -ms-transition: All 250ms ease;
+  transition: All 250ms ease;
+  cursor: pointer;
+}
+/*==========  Active State  ==========*/
+.btn-push:active {
+  position: relative;
+  top: 5px;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -ms-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-transition: All 250ms ease;
+  -moz-transition: All 250ms ease;
+  -o-transition: All 250ms ease;
+  -ms-transition: All 250ms ease;
+  transition: All 250ms ease;
+}
+/*==========  Navy  ==========*/
+.btn-push.navy {
+  background: #1b486d;
+  border: 1px solid #07121b;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #07121b;
+  -moz-box-shadow: 0px 5px 0px #07121b;
+  -ms-box-shadow: 0px 5px 0px #07121b;
+  -o-box-shadow: 0px 5px 0px #07121b;
+  box-shadow: 0px 5px 0px #07121b;
+  color: #fff;
+  text-shadow: 1px 1px 1px #07121b;
+}
+/*==========  Green  ==========*/
+.btn-push.green {
+  background: #7cc576;
+  color: #fff;
+  border: 1px solid #46963f;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #46963f;
+  -moz-box-shadow: 0px 5px 0px #46963f;
+  -ms-box-shadow: 0px 5px 0px #46963f;
+  -o-box-shadow: 0px 5px 0px #46963f;
+  box-shadow: 0px 5px 0px #46963f;
+  text-shadow: 1px 1px 1px #46963f;
+}
+/*==========  Red  ==========*/
+.btn-push.red {
+  background: #df4242;
+  color: #fff;
+  border: 1px solid #a01b1b;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #a01b1b;
+  -moz-box-shadow: 0px 5px 0px #a01b1b;
+  -ms-box-shadow: 0px 5px 0px #a01b1b;
+  -o-box-shadow: 0px 5px 0px #a01b1b;
+  box-shadow: 0px 5px 0px #a01b1b;
+  text-shadow: 1px 1px 1px #a01b1b;
+}
+/*==========  Blue  ==========*/
+.btn-push.blue {
+  background: #2ec2dd;
+  color: #fff;
+  border: 1px solid #177c8e;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #177c8e;
+  -moz-box-shadow: 0px 5px 0px #177c8e;
+  -ms-box-shadow: 0px 5px 0px #177c8e;
+  -o-box-shadow: 0px 5px 0px #177c8e;
+  box-shadow: 0px 5px 0px #177c8e;
+  text-shadow: 1px 1px 1px #177c8e;
+}
+/*==========  Orange  ==========*/
+.btn-push.orange {
+  background: #f57936;
+  color: #fff;
+  border: 1px solid #bc4809;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #bc4809;
+  -moz-box-shadow: 0px 5px 0px #bc4809;
+  -ms-box-shadow: 0px 5px 0px #bc4809;
+  -o-box-shadow: 0px 5px 0px #bc4809;
+  box-shadow: 0px 5px 0px #bc4809;
+  text-shadow: 1px 1px 1px #bc4809;
+}
+
+/*==========  Yellow  ==========*/
+.btn-push.yellow {
+  background: #ffcc00;
+  color: #fff;
+  border: 1px solid #ff9933;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #ff9933;
+  -moz-box-shadow: 0px 5px 0px #ff9933;
+  -ms-box-shadow: 0px 5px 0px #ff9933;
+  -o-box-shadow: 0px 5px 0px #ff9933;
+  box-shadow: 0px 5px 0px #ff9933;
+  text-shadow: 1px 1px 1px #ff9933;
+}
+
+/*==========  Light Blue  ==========*/
+.btn-push.lightblue {
+  background: #80d4ff;
+  color: #fff;
+  border: 1px solid black;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px black;
+  -moz-box-shadow: 0px 5px 0px black;
+  -ms-box-shadow: 0px 5px 0px black;
+  -o-box-shadow: 0px 5px 0px black;
+  box-shadow: 0px 5px 0px black;
+  text-shadow: 1px 1px 1px black;
+}
+
+.btn-push2 {
+  font-size: 18px;
+  text-decoration: none;
+  background: #f7f7f7;
+  padding: 10px 20px;
+  border: 1px solid #c4c4c4;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #c4c4c4;
+  -moz-box-shadow: 0px 5px 0px #c4c4c4;
+  -ms-box-shadow: 0px 5px 0px #c4c4c4;
+  -o-box-shadow: 0px 5px 0px #c4c4c4;
+  box-shadow: 0px 5px 0px #c4c4c4;
+  color: #222;
+  text-shadow: 1px 1px 1px #fff;
+  -webkit-transition: All 250ms ease;
+  -moz-transition: All 250ms ease;
+  -o-transition: All 250ms ease;
+  -ms-transition: All 250ms ease;
+  transition: All 250ms ease;
+  cursor: pointer;
+}
+/*==========  Active State  ==========*/
+.btn-push2:active {
+  position: relative;
+  top: 5px;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -ms-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-transition: All 250ms ease;
+  -moz-transition: All 250ms ease;
+  -o-transition: All 250ms ease;
+  -ms-transition: All 250ms ease;
+  transition: All 250ms ease;
+}
+
+/*==========  Yellow  ==========*/
+.btn-push2.yellow {
+  background: #ffcc00;
+  color: #fff;
+  border: 1px solid #ff9933;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #ff9933;
+  -moz-box-shadow: 0px 5px 0px #ff9933;
+  -ms-box-shadow: 0px 5px 0px #ff9933;
+  -o-box-shadow: 0px 5px 0px #ff9933;
+  box-shadow: 0px 5px 0px #ff9933;
+  text-shadow: 1px 1px 1px #ff9933;
+}
+/*==========  Green  ==========*/
+.btn-push2.green {
+  background: #7cc576;
+  color: #fff;
+  border: 1px solid #46963f;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #46963f;
+  -moz-box-shadow: 0px 5px 0px #46963f;
+  -ms-box-shadow: 0px 5px 0px #46963f;
+  -o-box-shadow: 0px 5px 0px #46963f;
+  box-shadow: 0px 5px 0px #46963f;
+  text-shadow: 1px 1px 1px #46963f;
+}
+/*==========  Red  ==========*/
+.btn-push2.red {
+  background: #df4242;
+  color: #fff;
+  border: 1px solid #a01b1b;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #a01b1b;
+  -moz-box-shadow: 0px 5px 0px #a01b1b;
+  -ms-box-shadow: 0px 5px 0px #a01b1b;
+  -o-box-shadow: 0px 5px 0px #a01b1b;
+  box-shadow: 0px 5px 0px #a01b1b;
+  text-shadow: 1px 1px 1px #a01b1b;
+}
+
+/*==========  Blue  ==========*/
+.btn-push2.blue {
+  background: #0066ff;
+  color: #fff;
+  border: 1px solid #cce0ff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #80b3ff;
+  -moz-box-shadow: 0px 5px 0px #80b3ff;
+  -ms-box-shadow: 0px 5px 0px #80b3ff;
+  -o-box-shadow: 0px 5px 0px #80b3ff;
+  box-shadow: 0px 5px 0px #80b3ff;
+  text-shadow: 1px 1px 1px #80b3ff;
+}
+
+.btn-push3 {
+  font-size: 30px;
+  text-decoration: none;
+  background: #f7f7f7;
+  padding: 20px 30px;
+  border: 1px solid #c4c4c4;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #c4c4c4;
+  -moz-box-shadow: 0px 5px 0px #c4c4c4;
+  -ms-box-shadow: 0px 5px 0px #c4c4c4;
+  -o-box-shadow: 0px 5px 0px #c4c4c4;
+  box-shadow: 0px 5px 0px #c4c4c4;
+  color: #222;
+  text-shadow: 1px 1px 1px #fff;
+  -webkit-transition: All 250ms ease;
+  -moz-transition: All 250ms ease;
+  -o-transition: All 250ms ease;
+  -ms-transition: All 250ms ease;
+  transition: All 250ms ease;
+  cursor: pointer;
+}
+/*==========  Active State  ==========*/
+.btn-push3:active {
+  position: relative;
+  top: 5px;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -ms-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-transition: All 250ms ease;
+  -moz-transition: All 250ms ease;
+  -o-transition: All 250ms ease;
+  -ms-transition: All 250ms ease;
+  transition: All 250ms ease;
+}
+
+/*==========  Yellow  ==========*/
+.btn-push3.yellow {
+  background: #ffcc00;
+  color: #fff;
+  border: 1px solid #ff9933;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #ff9933;
+  -moz-box-shadow: 0px 5px 0px #ff9933;
+  -ms-box-shadow: 0px 5px 0px #ff9933;
+  -o-box-shadow: 0px 5px 0px #ff9933;
+  box-shadow: 0px 5px 0px #ff9933;
+  text-shadow: 1px 1px 1px #ff9933;
+}
+/*==========  Green  ==========*/
+.btn-push3.green {
+  background: #7cc576;
+  color: #fff;
+  border: 1px solid #46963f;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #46963f;
+  -moz-box-shadow: 0px 5px 0px #46963f;
+  -ms-box-shadow: 0px 5px 0px #46963f;
+  -o-box-shadow: 0px 5px 0px #46963f;
+  box-shadow: 0px 5px 0px #46963f;
+  text-shadow: 1px 1px 1px #46963f;
+}
+/*==========  Red  ==========*/
+.btn-push3.red {
+  background: #df4242;
+  color: #fff;
+  border: 1px solid #a01b1b;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #a01b1b;
+  -moz-box-shadow: 0px 5px 0px #a01b1b;
+  -ms-box-shadow: 0px 5px 0px #a01b1b;
+  -o-box-shadow: 0px 5px 0px #a01b1b;
+  box-shadow: 0px 5px 0px #a01b1b;
+  text-shadow: 1px 1px 1px #a01b1b;
+}
+
+/*==========  Blue  ==========*/
+.btn-push3.blue {
+  background: #0066ff;
+  color: #fff;
+  border: 1px solid #cce0ff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 0px #80b3ff;
+  -moz-box-shadow: 0px 5px 0px #80b3ff;
+  -ms-box-shadow: 0px 5px 0px #80b3ff;
+  -o-box-shadow: 0px 5px 0px #80b3ff;
+  box-shadow: 0px 5px 0px #80b3ff;
+  text-shadow: 1px 1px 1px #80b3ff;
+}
+/*==========  White  ==========*/
+.btn-push3.white {
+  background: white;
+  color: white;
+  border: 0;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -webkit-box-shadow: 0px 0px 0px white;
+  -moz-box-shadow: 0px 0px 0px white;
+  -ms-box-shadow: 0px 0px 0px white;
+  -o-box-shadow: 0px 0px 0px white;
+  box-shadow: 0px 0px 0px white;
+  text-shadow:0px 0px 0px white;
+}
+/* BUTTONS FINISH*/
+
+/* PROGRESS BARS START*/
+
+.Progress-label {
+  font-size: 1em;
+  font-family: Helvetica, sans-serif;
+  display: block;
+}
+
+.Progress-main {
+  background-color: red;
+  display: block;
+  width: 90%;
+  height: 1em;
+  margin-left: 5%;
+}
+
+.Progress-main::-moz-progress-bar {
+  background: #17BAB3;
+}
+
+.Progress-main::-webkit-progress-bar {
+  background: #F2F2F2;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) inset;
+}
+
+.Progress-main::-webkit-progress-value {
+  background: #17BAB3;
+}
+
+.Progress-main::-ms-fill {
+  background: #17BAB3;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) inset;
+}
+
+.Progress-bar {
+  margin-top: 0.95em;
+  background-color: #F2F2F2;
+  height: 0.3em;
+}
+
+.Progress-value {
+  background-color: #17BAB3;
+  display: block;
+  height: 0.3em;
+}
+/* PROGRESS BARS FINISH*/
+
+#Progress-id{
+  margin-left: 20px;
+}
+
+#div-axis-x{
+  padding-top: 5px;
+}
+
+#div-info-velocidade-conteudo{
+  padding-top: 20px;
+  font-size: 18px;
+}
+
+#div-info-temperatura-conteudo{
+  padding-top: 20px;
+  font-size: 18px;
+}
+
+#div-span-temperatura-saida-cablagem{
+  width:50%;
+  float: left;
+  text-align: right;
+}
+
+#div-span-temperatura-ponto-movel{
+  float: left;
+  width: 41%;
+  text-align: right;
+}
+
+#div-span-temperatura-motor-b{
+  width:50%;
+  float: left;
+  text-align: right;
+}
+
+#div-span-temperatura-quadro{
+  float: left;
+  width: 41%;
+  text-align: right; 
+}
+
+#div-span-temperatura-agua-chiller{
+    float: right;
+    width: 84%;
+}
+
+#div-span-temperatura-agua-chiller2{
+    float: left;
+    width: 41%;
+    text-align: right; 
+}
+
+#div-span-temperatura-extrusor{
+    float: left;
+    width: 50%;
+    text-align: right;  
+}
+
+#div-span-temperatura-extrusor2{
+    float: left;
+    width: 41%;
+    text-align: right;  
+}
+
+#div-span-temperatura-camara{
+    float: left;
+    width: 50%;
+    text-align: right;  
+}
+
+#div-span-temperatura-tabuleiro-valor{
+    float: left;
+    width: 41%;
+    text-align: right; 
+}
+
+#div-temperatura-camara,#div-temperatura-extrusor,#div-temperatura-agua-chiller,#div-temperatura-motor-b,#div-temperatura-saida-cablagem{
+  height:20px;
+}
+
+#btn-automatic{
+  padding-top:75px;
+}
+
+#div-linhas-gcode{
+  padding-top: 15px;
+    float: left;
+    width: 40%;
+}
+
+.div-linha-gcode{
+  padding-bottom: 10px;
+}
+
+.input-linha-gcode{
+  width: 90%;
+  border-radius: 1px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-color: darkgray;
+  font-size: 16px;
+}
+
+.input-linha-gcode2{
+  width: 92%;
+  border-radius: 1px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-color: darkgray;
+  font-size: 26px;
+}
+
+
+.custom-file-input {
+  display:inline-block;
+  position:relative;
+  width:90%;
+  height:30px;
+  background-color:#e6e6e6;
+  color:white;
+  font:normal normal 13px/30px Helmet,FreeSans,Sans-Serif;
+  border-radius:3px;
+  overflow:hidden;
+  cursor:text;
+}
+
+.custom-file-input input {
+  /* sembunyikan dengan `opacity:0` */
+  opacity:0;
+  filter:alpha(opacity=0);
+  /* pastikan elemen ini selalu berada di sebelah atas */
+  display:block;
+  position:absolute;
+  top:0;
+  right:0;
+  margin:0;
+  padding:0;
+  font-size:2000%;
+  z-index:4;
+  cursor:pointer;
+}
+
+.custom-file-input span {
+  display:block;
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  padding:0 10px;
+  overflow:hidden;
+}
+
+.custom-file-input span + span {
+  left:auto;
+  background-color:#234;
+  border-radius:0 3px 3px 0;
+  padding:0 15px;
+  box-shadow:0 0 3px black,0 0 10px black;
+}
+
+
+/* Dora the Explorer */
+
+.custom-file-input input::-ms-value {display:none}
+
+.custom-file-input input::-ms-browse {
+  display:block;
+  margin:0;
+  padding:0;
+  cursor:inherit;
+}
+
+#div-escolher-ficheiro{
+  padding-top: 10px;
+  padding-left: 5px;
+}
+
+#nome-ficheiro{
+  color:black;
+}
+
+.div-botoes-eixos-bloco{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.div-mdi-botoes-eixos-bloco{
+  padding-top: 63px;
+}
+
+.div-aquecimento-parametros{
+  width:30%;
+  float: left;
+  padding-top:10px;
+}
+
+.div-aquecimento-parametros2{
+  width:50%;
+  float: left;
+  padding-top:10px;
+  text-align: right;
+}
+
+.div-aquecimento-parametro{
+  padding-bottom: 15px;
+}
+
+
+.div-span-velocidade{
+    float: left;
+    width: 70%;
+    text-align: right;
+}
+
+#div-velocidade-avanco,#div-velocidade-extrusao-polimero,#div-velocidade-extrusao-fibra,#div-velocidade-polimero-trabalho,#div-velocidade-fibra-trabalho{
+  height:20px;
+}
+
+/* SWITCH BUTTONS */
+.switch-box {
+  overflow: hidden;
+  text-align: left;
+  width: 60px;
+  padding: 5px;
+  background: #e5e5e5;
+  border: solid 1px #dddedf;
+  border-radius: 50em;
+}
+.switch-box input {
+  position: absolute;
+  left: -9999em;
+}
+.switch-box .option {
+  cursor: pointer;
+  display: block;
+  background: none;
+  position: relative;
+  padding: 0;
+  min-height: 0;
+  width: 200px;
+  left: -35px;
+  transition: all ease-in-out 0.5s;
+}
+.switch-box .active-state,
+.switch-box .inactive-state {
+  text-transform: uppercase;
+  padding: 0 5px;
+  font-family: Arial;
+  vertical-align: middle;
+  font-size: 15px;
+  display: inline-block;
+}
+.switch-box .inactive-state {
+  padding-left: 0;
+}
+.switch-box .icon {
+  vertical-align: middle;
+  width: 23px;
+  height: 23px;
+  background: #ac1f1f;
+  border-radius: 50em;
+  display: inline-block;
+  transition: all ease-in-out 0.5s;
+}
+.switch-box input:checked ~ .option {
+  left: 0;
+}
+.switch-box input:checked ~ .option .icon {
+  background: #2f905d;
+}
+
+.div-span-aquecimento{
+  width: 80%;
+  padding-top: 10px;
+  float: left;
+  text-align: right;
+}
+
+.div-span-insuflacaoar{  
+  padding-top: 10px;
+  float: left;
+  text-align: right;
+}    
+
+.div-aquecimento{
+  padding-bottom: 30px;
+}
+
+#div-outros-ajuste-mesa{
+  padding-top:30px;
+  width: 30%;
+  float: left;
+  text-align: right;
+}
+
+#div-outros-iluminacao-camara{
+  padding-top:30px;
+  width: 45%;
+  float: left; 
+  text-align: center;
+}
+
+
+select, option{
+  font-size:28px;
+}
+
+.div-span-insuflacao-quadro{
+  width: 40%;
+  float: left;
+  text-align: right;
+}
+
+#Parâmetros{
+  padding-top: 10px;
+}
+
+#Insuflação{
+ padding-top: 30px; 
+}
+
+.div-parametros-velocidades-bloco1{
+  width:50%;
+  float: left;
+  text-align: right;
+}
+
+.div-parametros-velocidades-bloco2{
+  width:15%;
+  float: left;
+  text-align: right;
+}
+
+.div-parametros-velocidades{
+  padding-bottom: 60px;
+}
+
+#input-mdi-gcode{
+  width:60%;
+  height: 60px;
+  font-size: 30px;
+  border-radius: 8px;
+}
+
+#div-botoes-teclado{
+  padding-top: 10px;
+  text-align: center;
+}
+
+.div-botoes-teclado-linha{
+  padding: 10px 5px;
+}
+
+.div-botoes-teclado-linha button{
+  margin-left:10px;
+  margin-right: 10px;
+}
+
+#div-span-mdi-gcode{
+  text-align: center;
+}
+
+.teclado-btns{
+  width: 86px;
+  height: 78px;
+}
+
+#div-input-mdi-gcode{
+  padding-top:10px;
+}
+
+#div-mdi-bloco1{
+  width:49%;
+  float:left;
+}
+#div-mdi-bloco2{
+  width:50%;
+  float: left;
+  text-align: right;
+}
+
+#div-desligar-motores{
+  width:27%;
+  float: left;
+  height: 70px;
+  text-align: center;
+  padding-top:50px;
+}
+
+#div-desligar-sistema-aquecimento{
+  width:45%;
+  float: left;
+  height: 70px;
+  text-align: center;
+  padding-top:50px;
+}
+
+#div-desligar-tudo{
+  width:27%;
+  float: left;
+  height: 70px;
+  text-align: center;
+  padding-top:50px;
+}
+
+#desligar-motores{
+  font-size: 24px;
+  height: 66px;
+}
+
+#desligar-sistema-aquecimento{
+  font-size: 24px;
+  height: 66px;
+}
+
+#desligar-tudo{
+  font-size: 24px;
+  height: 66px;
+}
+
+.btn-vel{
+  width: 78px;
+  height: 43px;
+}
+
+#btn-homing-geral-manual{
+  width:154px;
+  height: 43px;
+}
+
+#btn-homing-manual{
+  width:154px;
+  height: 43px; 
+}
+
+#div-aquecimento-temperatura-extrusor{
+  padding-top: 8px;
+}
+
+#div-aquecimento-temperatura-tabuleiro{
+  padding-top: 5px;
+}
+
+#div-insuflacao-camara{
+  width: 30%;
+  float: left;
+}
+
+#div-insuflacao-eixox{
+  width: 30%;
+  float: left; 
+}
+
+#div-insuflacao-quadro{
+  width: 30%;
+  float: left;  
+}
+
+#div-insuflacao-camara2{
+  width:50%;
+}
+
+#div-span-outros-iluminacao-camara{
+  width: 50%;
+}
+
+
+#div-info-velocidade-caption,#span-info-temperatura-caption{
+  padding-left: 10%;
+  font-weight: bold;
+  text-decoration-line: underline;
+}
+
+.div-linha{
+  width:98%;
+}
+
+.div-celula{
+    width: 18%;
+    float: left;
+    padding: 8px;
+}
+
+.div-celula-caption{
+    width: 18%;
+    float: left;
+    padding: 8px;
+    background-color: #009900;
+    color:white;
+    font-weight: bolder;
+    font-size: 22px;
+    border: 1px solid;
+}
+
+
+.span-temperatura-desejada{
+  font-size: 14px;
+  padding-left: 7px;
+}
+
+
+path {  stroke: #fff; }
+path:hover {  opacity:0.9; }
+rect:hover {  fill:green; }
+.axis {  font: 10px sans-serif; }
+.legend tr{    border-bottom:1px solid grey; }
+.legend tr:first-child{    border-top:1px solid grey; }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {  display: none; }
+.legend{
+    margin-bottom:76px;
+    display:inline-block;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+.legend td{
+    padding:2px 3px;
+    vertical-align:bottom;
+}
+.legendFreq, .legendPerc{
+    align:right;
+    width:10px;
+}
+
+.div-span-temps-valor{
+  width:70%;
+  float: left;
+}
+
+.d3-barra{
+  width:9%;
+  float: left;
+  margin-top: -8px;
+}
+
+.div-span-temps-desejada{
+  width:8%;
+  float: left;
+}
+
+#div-span-temps-valor-agua-chiller{
+  text-align: right;
+    width: 75%;
+}
+
+#dashboard-temperatura-tabuleiro,#dashboard-temperatura-agua-chiller,#dashboard-temperatura-quadro,#dashboard-temperatura-ponto-movel{
+  padding-left: 7px;
+}
+
+.div-linha2{
+  padding-bottom: 5px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bolder;
+  text-decoration: underline;
+}
+
+#div-historico-detalhes{
+  width:60%;
+  float: left;
+}
+
+#div-historico-detalhes-grafico{
+  width:39%;
+  float: left;
+}
+
+#div-temp-camara-max,#div-temp-camara-min,#div-temp-camara-media{
+  float: left;width:30%;
+}
+
+#div-temp-tabuleiro-max,#div-temp-tabuleiro-min,#div-temp-tabuleiro-media{
+  float: left;width:30%;
+}
+
+#div-temp-extrusor-max,#div-temp-extrusor-min,#div-temp-extrusor-media{
+  float: left;width:30%;
+}
+
+#div-temp-agua-chiller-max,#div-temp-agua-chiller-min,#div-temp-agua-chiller-media{
+  float: left;width:30%;
+}
+
+#div-temp-motor-b-max,#div-temp-motor-b-min,#div-temp-motor-b-media{
+  float: left;width:30%;
+}
+
+#div-temp-quadro-max,#div-temp-quadro-min,#div-temp-quadro-media{
+  float: left;width:30%;
+}
+
+#div-temp-saida-cablagem-max,#div-temp-saida-cablagem-min,#div-temp-saida-cablagem-media{
+  float: left;width:30%;
+}
+
+#div-temp-ponto-movel-max,#div-temp-ponto-movel-min,#div-temp-ponto-movel-media{
+  float: left;width:30%;
+}
+
+.div-temp-caption{
+  clear: left;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 7px;
+  padding-top: 20px;
+}
+
+#div-temp-camara-min,#div-temp-tabuleiro-min,#div-temp-extrusor-min,#div-temp-agua-chiller-min,#div-temp-motor-b-min,#div-temp-quadro-min,#div-temp-saida-cablagem-min,#div-temp-ponto-movel-min{
+  padding-left: 10%;
+  width: 35%;
+}
+
+#div-temp-camara-max,#div-temp-tabuleiro-max,#div-temp-extrusor-max,#div-temp-agua-chiller-max,#div-temp-motor-b-max,#div-temp-quadro-max,#div-temp-saida-cablagem-max,#div-temp-ponto-movel-max{
+  width: 25%;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+#q2Blue {
+  position: relative;
+  display: inline-block;
+}
+
+#q2Blue > input {
+  position: absolute;
+  outline: none;
+  left: 0;
+  top: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border: none;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* DEFAULT STYLES */
+#q2Blue > .box {
+    background-color: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 50px;
+    line-height: 55px;
+    text-align: center;
+    width: 95px;
+   border: 1px solid #62c8d0;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    margin-bottom: 15px;
+    margin-right: 7px;
+    position: relative;
+   font-weight: bold;
+}
+#q2Blue > .box > .tick {
+  display: none;
+}
+
+/* CHECKED STYLES */
+#q2Blue > input:checked ~ .box,
+/*IE8*/#q2Blue.checked > .box{
+  background: blue;
+  color: #FFF;
+}
+#q2Blue > input:checked ~ .box > .tick,
+/*IE8*/.#q2Blue.checked > .box > .tick {
+  display: block;
+}
+#q2Blue > input:active ~ .box {
+  border-color: #aaa;
+  background-color: #ddd;
+}
+
+
+#q2Red  {
+  position: relative;
+  display: inline-block;
+}
+
+#q2Red > input {
+  position: absolute;
+  outline: none;
+  left: 0;
+  top: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border: none;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* DEFAULT STYLES */
+#q2Red > .box {
+    background-color: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 50px;
+    line-height: 55px;
+    text-align: center;
+    width: 95px;
+   border: 1px solid #62c8d0;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    margin-bottom: 15px;
+    margin-right: 7px;
+    position: relative;
+   font-weight: bold;
+}
+#q2Red > .box > .tick {
+  display: none;
+}
+
+/* CHECKED STYLES */
+#q2Red > input:checked ~ .box,
+/*IE8*/#q2Red.checked > .box{
+  background: red;
+  color: #FFF;
+}
+#q2Red > input:checked ~ .box > .tick,
+/*IE8*/.#q2Red.checked > .box > .tick {
+  display: block;
+}
+#q2Red > input:active ~ .box {
+  border-color: #aaa;
+  background-color: #ddd;
+}
+
+
+
+
+#q2Green  {
+  position: relative;
+  display: inline-block;
+}
+
+#q2Green > input {
+  position: absolute;
+  outline: none;
+  left: 0;
+  top: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border: none;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* DEFAULT STYLES */
+#q2Green > .box {
+    background-color: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 50px;
+    line-height: 55px;
+    text-align: center;
+    width: 95px;
+   border: 1px solid #62c8d0;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    margin-bottom: 15px;
+    margin-right: 7px;
+    position: relative;
+   font-weight: bold;
+}
+#q2Green > .box > .tick {
+  display: none;
+}
+
+/* CHECKED STYLES */
+#q2Green > input:checked ~ .box,
+/*IE8*/#q2Green.checked > .box{
+  background: green;
+  color: #FFF;
+}
+#q2Green > input:checked ~ .box > .tick,
+/*IE8*/.#q2Green.checked > .box > .tick {
+  display: block;
+}
+#q2Green > input:active ~ .box {
+  border-color: #aaa;
+  background-color: #ddd;
+}
+
+
+
+
+#q2Brown  {
+  position: relative;
+  display: inline-block;
+}
+
+#q2Brown > input {
+  position: absolute;
+  outline: none;
+  left: 0;
+  top: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border: none;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* DEFAULT STYLES */
+#q2Brown > .box {
+    background-color: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 50px;
+    line-height: 55px;
+    text-align: center;
+    width: 95px;
+   border: 1px solid #62c8d0;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    margin-bottom: 15px;
+    margin-right: 7px;
+    position: relative;
+   font-weight: bold;
+}
+#q2Brown > .box > .tick {
+  display: none;
+}
+
+/* CHECKED STYLES */
+#q2Brown > input:checked ~ .box,
+/*IE8*/#q2Brown.checked > .box{
+  background: brown;
+  color: #FFF;
+}
+#q2Brown > input:checked ~ .box > .tick,
+/*IE8*/.#q2Brown.checked > .box > .tick {
+  display: block;
+}
+#q2Brown > input:active ~ .box {
+  border-color: #aaa;
+  background-color: #ddd;
+}
+
+
+
+
+#q2Pink  {
+  position: relative;
+  display: inline-block;
+}
+
+#q2Pink > input {
+  position: absolute;
+  outline: none;
+  left: 0;
+  top: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border: none;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* DEFAULT STYLES */
+#q2Pink > .box {
+    background-color: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 50px;
+    line-height: 55px;
+    text-align: center;
+    width: 95px;
+   border: 1px solid #62c8d0;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    margin-bottom: 15px;
+    margin-right: 7px;
+    position: relative;
+   font-weight: bold;
+}
+#q2Pink > .box > .tick {
+  display: none;
+}
+
+/* CHECKED STYLES */
+#q2Pink > input:checked ~ .box,
+/*IE8*/#q2Pink.checked > .box{
+  background: pink;
+  color: #FFF;
+}
+#q2Pink > input:checked ~ .box > .tick,
+/*IE8*/.#q2Pink.checked > .box > .tick {
+  display: block;
+}
+#q2Pink > input:active ~ .box {
+  border-color: #aaa;
+  background-color: #ddd;
+}
+
+
+
+
+#q2Violet  {
+  position: relative;
+  display: inline-block;
+}
+
+#q2Violet > input {
+  position: absolute;
+  outline: none;
+  left: 0;
+  top: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border: none;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* DEFAULT STYLES */
+#q2Violet > .box {
+    background-color: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 50px;
+    line-height: 55px;
+    text-align: center;
+    width: 95px;
+   border: 1px solid #62c8d0;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    margin-bottom: 15px;
+    margin-right: 7px;
+    position: relative;
+   font-weight: bold;
+}
+#q2Violet > .box > .tick {
+  display: none;
+}
+
+/* CHECKED STYLES */
+#q2Violet > input:checked ~ .box,
+/*IE8*/#q2Violet.checked > .box{
+  background: violet;
+  color: #FFF;
+}
+#q2Violet > input:checked ~ .box > .tick,
+/*IE8*/.#q2Violet.checked > .box > .tick {
+  display: block;
+}
+#q2Violet > input:active ~ .box {
+  border-color: #aaa;
+  background-color: #ddd;
+}
+
+
+
+#q2Black  {
+  position: relative;
+  display: inline-block;
+}
+
+#q2Black > input {
+  position: absolute;
+  outline: none;
+  left: 0;
+  top: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border: none;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* DEFAULT STYLES */
+#q2Black > .box {
+    background-color: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 50px;
+    line-height: 55px;
+    text-align: center;
+    width: 95px;
+   border: 1px solid #62c8d0;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    margin-bottom: 15px;
+    margin-right: 7px;
+    position: relative;
+   font-weight: bold;
+}
+#q2Black > .box > .tick {
+  display: none;
+}
+
+/* CHECKED STYLES */
+#q2Black > input:checked ~ .box,
+/*IE8*/#q2Black.checked > .box{
+  background: black;
+  color: #FFF;
+}
+#q2Black > input:checked ~ .box > .tick,
+/*IE8*/.#q2Black.checked > .box > .tick {
+  display: block;
+}
+#q2Black > input:active ~ .box {
+  border-color: #aaa;
+  background-color: #ddd;
+}
+
+
+
+#q2Orange  {
+  position: relative;
+  display: inline-block;
+}
+
+#q2Orange > input {
+  position: absolute;
+  outline: none;
+  left: 0;
+  top: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  border: none;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* DEFAULT STYLES */
+#q2Orange > .box {
+    background-color: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 50px;
+    line-height: 55px;
+    text-align: center;
+    width: 95px;
+   border: 1px solid #62c8d0;
+    border-radius: 5px;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    margin-bottom: 15px;
+    margin-right: 7px;
+    position: relative;
+   font-weight: bold;
+}
+#q2Orange > .box > .tick {
+  display: none;
+}
+
+/* CHECKED STYLES */
+#q2Orange > input:checked ~ .box,
+/*IE8*/#q2Orange.checked > .box{
+  background: orange;
+  color: #FFF;
+}
+#q2Orange > input:checked ~ .box > .tick,
+/*IE8*/.#q2Orange.checked > .box > .tick {
+  display: block;
+}
+#q2Orange > input:active ~ .box {
+  border-color: #aaa;
+  background-color: #ddd;
+}
+
+
+.main{
+  width: 80px;
+  height: 80px;
+  border:1px solid black;
+  top:0; bottom:0; left:0;right:0;
+  margin:auto;
+  border-radius:50%; 
+}
+
+.circle{
+  width:10px;
+  height:10px;
+  background:red;
+  border-radius:50%;  
+  top:0; bottom:0; left:0;right:0;
+  overflow:hidden;
+  margin-top: 35px;
+  margin-left: 45px;
+  -webkit-transition: all 2.5s ease-in-out;
+  -moz-transition: all 2.5s ease-in-out;
+  -o-transition: all 2.5s ease-in-out;
+  transition: all 2.5s ease-in-out;
+  transform:rotate(0deg)
+          translate(-50px)
+          rotate(0deg);
+}
+
+
+
+
+.app-container {
+  position: relative;
+  min-width: 300px;
+  width: 100%;
+}
+
+.circle-container {
+  position: relative;
+  width: 200px;
+}
+
+.circle2 {
+  width: 80px;
+  height: 80px;
+  border: 1px solid white;
+  border-radius: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.point {
+  width: 100px;
+  height: 1px;
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  z-index: 1000;
+  transform-origin: left;
+}
+
+.point::after {
+  content: "";
+  display: block;
+  background: red;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  transform: translateX(100px) translateX(-50%) translateY(-50%);
+}
+
+.line {
+  width: 80px;
+  height: 2px;
+  position: absolute;
+  top: 40px;
+  left: 3px;
+  transform-origin: left;
+  -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all 1s ease-in-out;
+  -o-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+  transform-origin: center center 0px;
+}
+
+.line--hypotenuse {
+  display: block;
+  background: blue;
+}
+
+.line--sine {
+  background: rebeccapurple;
+  z-index: 1;
+}
+
+.show-sine .line--sine {
+  display: block;
+}
+
+.line--cosine {
+  background: green;
+  z-index: 1;
+}
+
+.show-cosine .line--cosine {
+  display: block;
+}
+
+.line--tangent {
+  background: turquoise;
+}
+
+.show-tangent .line--tangent {
+  display: block;
+}
+
+.line--cotangent {
+  background: sienna;
+}
+
+.show-cotangent .line--cotangent {
+  display: block;
+}
+
+.line--secant {
+  background: springgreen;
+}
+
+.show-secant .line--secant {
+  display: block;
+}
+
+.line--cosecant {
+  background: salmon
+}
+
+.show-cosecant .line--cosecant {
+  display: block;
+}
+
+
+.line2 {
+  display: none;
+  width: 40px;
+  height: 2px;
+  position: absolute;
+  top: 40px;
+  left: 100px;
+  transform-origin: left;
+  -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all 1s ease-in-out;
+  -o-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+}
+
+.line2--hypotenuse {
+  display: block;
+  background: blue;
+}
+
+
+.app-containerC {
+  position: relative;
+  min-width: 300px;
+  width: 100%;
+}
+
+.circle-containerC {
+  position: relative;
+  width: 200px;
+}
+
+.circleC {
+  width: 80px;
+  height: 80px;
+  border: 1px solid grey;
+  border-radius: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: 60px;
+}
+
+
+.pointC {
+  width: 40px;
+  height: 1px;
+  position: absolute;
+  top: 40px;
+  left: 100px;
+  z-index: 1;
+  -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all 1s ease-in-out;
+  -o-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+  transform-origin: left;
+}
+
+.pointC::after {
+  content: "";
+  display: block;
+  background: red;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  transform: translateX(40px) translateX(-50%) translateY(-50%);
+}
+
+#btn-ver3d{
+  margin-top: 25px;
+}
+
+.editBlock{
+  display: none;
+}

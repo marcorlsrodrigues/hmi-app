@@ -1964,6 +1964,7 @@ rect:hover {  fill:green; }
 .line--hypotenuse {
   display: block;
   background: blue;
+  transition-duration: 20s;
 }
 
 .line--sine {

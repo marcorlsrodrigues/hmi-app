@@ -566,6 +566,12 @@ $(function(){
 	function touchend(event) {
  		manualModeData = ['',0,''];		
 		socket.emit('move_eixo_manual', manualModeData);
+		let rotateFinal = $('#span-b-pos').text();
+		if(rotateFinal.indexOf('-') !== -1){
+			$('#line--hypotenuse').css('transform', "rotateZ("+rotateFinal+"deg)");
+		}else{
+			$('#line--hypotenuse').css('transform', "rotateZ(-"+rotateFinal+"deg)");
+		}
 	}
 
 	function touchstart(event) {
@@ -603,6 +609,14 @@ $(function(){
 		}else if($('#btn-maisdez-manual').hasClass('lightblue')){
 			valor=100;
 			sinal = 'positivo';
+		}
+
+		if($('#btn-b-manual').hasClass('lightblue')){
+			if(sinal==='positivo'){
+				$('#line--hypotenuse').css("transform", "rotateZ(-20deg)");
+			}else{
+				$('#line--hypotenuse').css("transform", "rotateZ(20deg)");
+			}
 		}
 
 		manualModeData = [eixo,valor,sinal];
@@ -915,9 +929,10 @@ $(function(){
     });
 
     socket.on('CncHmiData.PlcHmiData.Channel[0].Axis[4].actCmdPosition', function(actCmdPosition) {
+    	
     	angleB=actCmdPosition;
     	pointValuesB = pointValuesB + 90;
-    	updateAngleB(pointValuesB,20,angleB);
+    	//updateAngleB(pointValuesB,20,angleB);
     	$('#span-b-pos').text((actCmdPosition).toFixed(2));
     });
 
@@ -1756,6 +1771,10 @@ function updateAngleB(x,y,angle){
 }
 
 function updateThetaB(newTheta) {
+	 linesB.forEach(function (line) {
+        return line.update(newTheta);
+      });
+	 return;
     window.requestAnimationFrame(function () {
       //point.style.transform = 'rotateZ(-' + newTheta + 'rad)';
       linesB.forEach(function (line) {

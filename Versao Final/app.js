@@ -540,6 +540,14 @@ io.sockets.on('connection',function(socket){
 		this.notify(hl_TempSaidaCablagem);
 		this.notify(hl_TempPontoMovel);
 		this.notify(hl_BlockNumber);
+
+        hl_EnableTracking.value='1';
+        this.write(hl_EnableTracking, function(err) {
+            console.log('err: '+ err);
+            this.read(hl_EnableTracking, function(err, handle) {
+                console.log(err);
+            });
+        });
     });
 
 
@@ -737,13 +745,6 @@ io.sockets.on('connection',function(socket){
                 });
             });
 
-            hl_EnableTracking.value='1';
-            client.write(hl_EnableTracking, function(err) {
-                console.log('err: '+ err);
-                client.read(hl_EnableTracking, function(err, handle) {
-                    console.log(err);
-                });
-            });
 
             hl_automaticMode.value='0';
             client.write(hl_automaticMode, function(err) {

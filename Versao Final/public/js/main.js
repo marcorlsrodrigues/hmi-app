@@ -572,6 +572,15 @@ $(function(){
 		}else{
 			$('#line--hypotenuse').css('transform', "rotateZ(-"+rotateFinal+"deg)");
 		}
+
+		let rotateFinalC = $('#span-c-pos').text();
+		if(rotateFinalC.indexOf('-') !== -1){
+			$('#line2-hypotenuse').css('transform', "rotateZ("+rotateFinalC+"deg)");
+			$('#pointC').css('transform', "rotateZ("+rotateFinalC+"deg)");
+		}else{
+			$('#line2--hypotenuse').css('transform', "rotateZ(-"+rotateFinalC+"deg)");
+			$('#pointC').css('transform', "rotateZ(-"+rotateFinalC+"deg)");
+		}
 	}
 
 	function touchstart(event) {
@@ -616,6 +625,16 @@ $(function(){
 				$('#line--hypotenuse').css("transform", "rotateZ(-20deg)");
 			}else{
 				$('#line--hypotenuse').css("transform", "rotateZ(20deg)");
+			}
+		}
+
+		if($('#btn-c-manual').hasClass('lightblue')){
+			if(sinal==='positivo'){
+				$('#line2--hypotenuse').css("transform", "rotateZ(-30deg)");
+				$('#pointC').css("transform", "rotateZ(-30deg)");
+			}else{
+				$('#line2--hypotenuse').css("transform", "rotateZ(30deg)");
+				$('#pointC').css("transform", "rotateZ(30deg)");
 			}
 		}
 
@@ -938,7 +957,7 @@ $(function(){
 
     socket.on('CncHmiData.PlcHmiData.Channel[0].Axis[5].actCmdPosition', function(actCmdPosition) {
     	pointValuesC=pointValuesC + 90;
-		updateAngleC(pointValuesC,30,actCmdPosition,pointC);
+		//updateAngleC(pointValuesC,30,actCmdPosition,pointC);
 		$('#span-c-pos').text((actCmdPosition).toFixed(2));
     });
 
@@ -1911,7 +1930,7 @@ function findAngle(_ref) {
 function updateThetaC(newTheta,pointC) {
 	let pointC2 = document.getElementById('pointC');
     window.requestAnimationFrame(function () {
-      pointC2.style.transform = 'rotateZ(-' + newTheta + 'deg)';
+      //pointC2.style.transform = 'rotateZ(-' + newTheta + 'deg)';
       linesC.forEach(function (line) {
         return line.update(newTheta);
       });

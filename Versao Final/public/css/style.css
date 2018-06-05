@@ -2035,6 +2035,7 @@ rect:hover {  fill:green; }
 .line2--hypotenuse {
   display: block;
   background: blue;
+  transition-duration: 20s;
 }
 
 
@@ -2073,6 +2074,7 @@ rect:hover {  fill:green; }
   -o-transition: all 1s ease-in-out;
   transition: all 1s ease-in-out;
   transform-origin: left;
+  transition-duration: 20s;
 }
 
 .pointC::after {

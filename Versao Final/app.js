@@ -599,7 +599,40 @@ io.sockets.on('connection',function(socket){
             });
         });
 
-    	hl_FileStart.value=value;
+        hl_currentMode.value='2';
+        client.write(hl_currentMode, function(err) {
+            console.log('err: '+ err);
+            client.read(hl_currentMode, function(err, handle) {
+                console.log(err);
+            });
+        });
+
+        hl_currentState.value='4';
+        client.write(hl_currentState, function(err) {
+            console.log('err: '+ err);
+            client.read(hl_currentState, function(err, handle) {
+                console.log(err);
+            });
+        });
+
+        hl_automaticMode.value='1';
+        client.write(hl_automaticMode, function(err) {
+            console.log('err: '+ err);
+            client.read(hl_automaticMode, function(err, handle) {
+                console.log(err);
+            });
+        });
+
+        
+        hl_manualMode.value='0';
+        client.write(hl_manualMode, function(err) {
+            console.log('err: '+ err);
+            client.read(hl_manualMode, function(err, handle) {
+                console.log(err);
+            });
+        });
+
+    	hl_FileStart.value='1';
         client.write(hl_FileStart, function(err) {
             console.log('err: '+ err);
             client.read(hl_FileStart, function(err, handle) {
@@ -694,6 +727,16 @@ io.sockets.on('connection',function(socket){
 	socket.on('move_eixo_manual', function (value) {
         console.log('move_eixo_manual:');
         console.log(value);
+
+
+        hl_FileStart.value='0';
+        client.write(hl_FileStart, function(err) {
+            console.log('err: '+ err);
+            client.read(hl_FileStart, function(err, handle) {
+                console.log(err);
+            });
+        });
+
         hl_manualMode_isActivated.value='1';
         client.write(hl_manualMode_isActivated, function(err) {
             console.log('err: '+ err);

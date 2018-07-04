@@ -404,6 +404,12 @@ var hl_Manual_nOpMode = {
     propname: 'value'  
 };
 
+var hl_cActFeed = {
+    symname: 'CncHmiData.PlcHmiData.Channel[0].ActiveFeed',  
+    bytelength: ads.LREAL,  
+    propname: 'value'
+}
+
 
 
 function setValue(){
@@ -540,6 +546,7 @@ io.sockets.on('connection',function(socket){
 		this.notify(hl_TempSaidaCablagem);
 		this.notify(hl_TempPontoMovel);
 		this.notify(hl_BlockNumber);
+        this.notify(hl_cActFeed);
 
         hl_EnableTracking.value='1';
         this.write(hl_EnableTracking, function(err) {
@@ -1113,8 +1120,6 @@ io.sockets.on('connection',function(socket){
     		min_temp_aguachiller =0.0, max_temp_aguachiller =0.0,avg_temp_aguachiller =0.0,
     		min_temp_pontomovel =0.0, max_temp_pontomovel =0.0,avg_temp_pontomovel =0.0;
     	let arrayGrafico = [];
-        console.log('detalhes1');
-        console.log('id:'+id);
     	rdb.table("file_execution").filter({file_id: id}).orderBy(rdb.asc('date')).run(conn)
     		.then(cursor => {
                 cursor.each((err, returnedData) => {
@@ -1122,7 +1127,6 @@ io.sockets.on('connection',function(socket){
                 	socket.emit('historico_detalhes_grafico',arrayGrafico);
                 });
     		});;
-        console.log('detalhes2');
     	
     	rdb.table("file_execution")
     		.filter({file_id: id})

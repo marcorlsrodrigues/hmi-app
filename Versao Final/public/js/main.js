@@ -1099,6 +1099,11 @@ $(function(){
     	
     });
 
+    socket.on('CncHmiData.PlcHmiData.Channel[0].ActiveFeed',function(value){
+    	let actFeed = (value/1000).toFixed(2);
+    	$('#span-velocidade-avanco-valor').text(actFeed);
+    });
+
     socket.on('historico_resp', function(obj) {
     	$('#div-historico').append('<div class="div-linha"><div class="div-celula" style="padding-top:15px"><span>'+obj.filename+'</span></div><div class="div-celula" style="padding-top:15px"><span>'+obj.start_date+'</span></div><div class="div-celula" style="padding-top:15px"><span>'+obj.stop_date+'</span></div><div class="div-celula" style="padding-top:15px"><span>'+obj.duration.toFixed(2)+'</span></div><div class="div-celula" style="text-align: center;"><a id="a-historicoDetalhes" href="#" data-type="a-historicoDetalhes" data-id='+obj.id+' data-filename='+obj.filename+'><img src="../img/info.png" alt="Detalhes" height="30" width="30"/></a></div></div>');
     });
